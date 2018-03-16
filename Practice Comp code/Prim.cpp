@@ -1,92 +1,50 @@
 #include<bits/stdc++.h>
-
 using namespace std;
-
-int n, e;
-vector <pair <int, pair <int, int> > > graph[100];
-vector <pair <int, pair <int, int> > > p_queue;
-int visited[100];
-multimap <int, pair<int, int> > mp;
-
-void initialize()
+vector< pair<int,int> >adj[100001];
+bool visited[100001] = {false};
+int cost = 0;
+void prim(int v)
 {
-	for(int i = 0; i < n; i++)
-		visited[i] = 0;
-}
-
-void prim(int current)
-{
-	if(p_queue.size() > 0)
+	priority_queue<pair<int,int>,vector<pair<int,int> >,greater<pair<int,int> > >q;
+	q.push(make_pair(0, v));
+	int i;
+	while(!q.empty())
 	{
-		vector <pair <int, pair <int, int> > > :: iterator it, itp;
-		it = graph[current].begin();
-		if(visited[it -> second.second] == 1)
-		{
-			p_queue.erase(p_queue.begin(), p_queue.begin() + 1);
-			prim(current);
-		}
-		visited[current] = 1;
-		advance(it, current - 1);
-		for(it = graph[current].begin(); it != graph[current].end(); it++)
-		{
-			if(visited[it -> second.second] == 0)
-			{
-//				cout << "in if";
-				p_queue.push_back(make_pair(it -> first, make_pair(current, it -> second.second)));
-			}
-		}
-		sort(p_queue.begin(), p_queue.end());
-		itp = p_queue.begin();
-		int to_pass = itp -> second.second;
-		mp.insert(make_pair(itp -> first, make_pair(itp -> second.first, itp -> second.second)));
-		p_queue.erase(p_queue.begin(), p_queue.begin() + 1);
-		prim(to_pass);	
-	}
-	return;
-}
+		pair<int,int> curr = q.top();
+		q.pop();
+		int x = curr.second;
 
+		if(visited[x] == true )
+			continue;
+
+		visited[x] = true;
+		cost += curr.first;
+
+		for(i = 0; i < adj[x].size(); i++)
+		{
+			if(visited[adj[x][i].second] == false)
+			{
+				q.push(adj[x][i]);
+			}
+
+		}
+	}
+
+}
 int main()
 {
-	printf("Enter number of vertices:");
-	scanf("%d", &n);
-	initialize();
-	printf("Enter number of edges:");
-	scanf("%d", &e);
-	printf("Enter edges with weights:");
-	for(int i = 0; i < e; i++)
+	int n, m, i, a, b, c;
+	cin >> n >> m;
+	for(i=0;i<m;i++)
 	{
-		int u, v, w;
-		scanf("%d%d%d", &u, &v, &w);
-//		mp.insert(make_pair(w, make_pair(u, v)));
-		graph[u].push_back(make_pair(w, make_pair(u, v)));
-		graph[v].push_back(make_pair(w, make_pair(u, v)));
+		cin >> a >> b >> c;
+		adj[a].push_back(make_pair(c, b));
+		adj[b].push_back(make_pair(c, a));
+
 	}
-	multimap <int, pair<int, int> > :: iterator itm;
-	int start;
-	printf("Enter start vertex:");
-	scanf("%d", &start);
-	visited[start] = 1;
-	vector <pair <int, pair <int, int> > > :: iterator it, itp;
-	it = graph[start].begin();
-//	cout << it -> first << "   " << it -> second.first << "   " <<  it -> second.second << endl;
-	advance(it, start - 1);
-//	cout << "H";
-	for(it = graph[start].begin(); it != graph[start].end(); it++)
-	{
-		if(visited[it -> second.second] == 0)
-		{
-//			cout << "in if";
-			p_queue.push_back(make_pair(it -> first, make_pair(start, it -> second.second)));
-		}
-	}
-	sort(p_queue.begin(), p_queue.end());
-	itp = p_queue.begin();
-	int to_pass = itp -> second.second;
-	mp.insert(make_pair(itp -> first, make_pair(itp -> second.first, itp -> second.second)));
-	p_queue.erase(p_queue.begin(), p_queue.begin() + 1);
-//	cout << "g";
-	prim(to_pass);
-	for(itm = mp.begin(); itm != mp.end(); itm++)
-		printf("%d %d %d\n", itm -> first, itm -> second.first, itm -> second.second);
+
+	prim(1);
+	cout << cost << endl;
+
 }
 
