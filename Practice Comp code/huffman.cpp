@@ -20,5 +20,16 @@ int main()
 //	for(int i = 0; i < 26; i++)
 //		cout << freq[i] << endl;
 	sort(freq, freq + 26, greater<int>());
-	
+	priority_queue <int> q;
+	int index = 0;
+	while(freq[index] != 0)
+	{
+		q.push(freq[index]);
+		index++;	
+	}
+	while(!q.empty())
+	{
+		cout << q.top() << endl;
+		q.pop();
+	}
 }
