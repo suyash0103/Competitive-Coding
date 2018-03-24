@@ -2,6 +2,8 @@
 
 using namespace std;
 
+pair <string, char> p;
+
 class huff
 {
 	public:
@@ -10,6 +12,7 @@ class huff
 		int freq;
 		char c;
 		int empty;
+		int visited;
 };
 
 struct MoreThanByFreq
@@ -19,6 +22,13 @@ struct MoreThanByFreq
     	return lhs.freq > rhs.freq;
 	}
 };
+
+//void inorder(huff node)
+//{
+//	if(node == NULL)
+//		return;
+//	if(node.left)
+//}
 
 int main()
 {
@@ -51,6 +61,7 @@ int main()
 			h.right = NULL;
 			h.freq = freq[index];
 			h.empty = 0;
+			h.visited = 0;
 			q.push(h);
 		}
 		index++;
@@ -76,12 +87,17 @@ int main()
 		q.pop();
 		huff h2 = q.top();
 		q.pop();
+//		cout << h1.c << " " << h2.c << endl;
 		huff h;
 		h.left = &h1;
 		h.right = &h2;
 		h.empty = 1;
 		h.freq = h1.freq + h2.freq;
+		h.c = NULL;
+		h.visited = 0;
+//		cout << "gg" << h.c << endl;
 		q.push(h);
 	}
 	
+//	inorder(final);
 }
