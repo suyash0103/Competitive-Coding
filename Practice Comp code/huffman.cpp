@@ -15,7 +15,7 @@ struct MoreThanByFreq
 {
 	bool operator()(const huff& lhs, const huff& rhs) const
 	{
-    	return lhs.freq < rhs.freq;
+    	return lhs.freq > rhs.freq;
 	}
 };
 
@@ -34,14 +34,10 @@ int main()
 		freq[s[i] - 'a']++;	
 	}
 	
-	int x;
-	for(int i = 0; i < 26; i++)
-		if(freq[i] > 0)
-			x++;
-	
 //	for(int i = 0; i < 26; i++)
 //		cout << freq[i] << endl;
-
+	
+	int x = 26;
 	priority_queue<huff, vector<huff>, MoreThanByFreq> q;
 	int index = 0;
 	while(x--)
@@ -58,12 +54,12 @@ int main()
 		index++;
 	}
 	
-//	while(!q.empty())
-//	{
-//		huff h = q.top();
-//		q.pop();
-//		cout << h.c << " " << h.freq << endl;
-//	}
+	while(!q.empty())
+	{
+		huff h = q.top();
+		q.pop();
+		cout << h.c << " " << h.freq << endl;
+	}
 	
 	
 }
