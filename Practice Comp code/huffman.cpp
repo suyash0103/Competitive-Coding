@@ -3,6 +3,7 @@
 using namespace std;
 
 pair <string, char> p;
+vector <int> v;
 
 class huff
 {
@@ -23,12 +24,33 @@ struct MoreThanByFreq
 	}
 };
 
-//void inorder(huff node)
-//{
-//	if(node == NULL)
-//		return;
-//	if(node.left)
-//}
+void printnode(huff* node, vector<int> &t)
+{
+	cout << node -> c;
+	for(int i = 0; i < t.size(); i++)
+		cout << t[i] << " ";
+	cout << endl; 
+}
+
+void inorder(huff* node, int index)
+{
+	if(node == NULL)
+		return;
+	if(index == 0)
+		v.push_back(0);
+	else if(index == 1)
+		v.push_back(1);
+		
+	if(node -> left == NULL && node -> right == NULL)
+		printnode(node, v);
+	else
+	{
+		if(node -> left != NULL)
+			inorder(node -> left, 0);
+		else if(node -> right != NULL)	
+			inorder(node -> right, 1);	
+	}
+}
 
 int main()
 {
@@ -99,5 +121,5 @@ int main()
 		q.push(h);
 	}
 	
-//	inorder(final);
+	inorder(&final, 2);
 }
