@@ -9,6 +9,7 @@ class huff
 		huff* right;
 		int freq;
 		char c;
+		int empty;
 };
 
 struct MoreThanByFreq
@@ -49,17 +50,38 @@ int main()
 			h.left = NULL;
 			h.right = NULL;
 			h.freq = freq[index];
+			h.empty = 0;
 			q.push(h);
 		}
 		index++;
 	}
 	
+//	while(!q.empty())
+//	{
+//		huff h = q.top();
+//		q.pop();
+//		cout << h.c << " " << h.freq << endl;
+//	}
+	
+	huff final;
 	while(!q.empty())
 	{
-		huff h = q.top();
+		if(q.size() == 1)
+		{
+			final = q.top();
+			q.pop();
+			break;
+		}
+		huff h1 = q.top();
 		q.pop();
-		cout << h.c << " " << h.freq << endl;
+		huff h2 = q.top();
+		q.pop();
+		huff h;
+		h.left = &h1;
+		h.right = &h2;
+		h.empty = 1;
+		h.freq = h1.freq + h2.freq;
+		q.push(h);
 	}
-	
 	
 }
