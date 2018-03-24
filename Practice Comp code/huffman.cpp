@@ -2,6 +2,23 @@
 
 using namespace std;
 
+class huff
+{
+	public:
+		huff* left;
+		huff* right;
+		int freq;
+		char c;
+};
+
+struct MoreThanByFreq
+{
+	bool operator()(const huff& lhs, const huff& rhs) const
+	{
+    	return lhs.freq < rhs.freq;
+	}
+};
+
 int main()
 {
 	string s;
@@ -17,19 +34,36 @@ int main()
 		freq[s[i] - 'a']++;	
 	}
 	
+	int x;
+	for(int i = 0; i < 26; i++)
+		if(freq[i] > 0)
+			x++;
+	
 //	for(int i = 0; i < 26; i++)
 //		cout << freq[i] << endl;
-	sort(freq, freq + 26, greater<int>());
-	priority_queue <int> q;
+
+	priority_queue<huff, vector<huff>, MoreThanByFreq> q;
 	int index = 0;
-	while(freq[index] != 0)
+	while(x--)
 	{
-		q.push(freq[index]);
-		index++;	
+		if(freq[index] != 0)
+		{
+			huff h;
+			h.c = char(index + 97);
+			h.left = NULL;
+			h.right = NULL;
+			h.freq = freq[index];
+			q.push(h);
+		}
+		index++;
 	}
-	while(!q.empty())
-	{
-		cout << q.top() << endl;
-		q.pop();
-	}
+	
+//	while(!q.empty())
+//	{
+//		huff h = q.top();
+//		q.pop();
+//		cout << h.c << " " << h.freq << endl;
+//	}
+	
+	
 }
