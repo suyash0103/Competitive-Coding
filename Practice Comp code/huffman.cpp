@@ -24,6 +24,8 @@ struct MoreThanByFreq
 	}
 };
 
+priority_queue<huff, vector<huff>, MoreThanByFreq> q;
+
 void printnode(huff* node, vector<int> &t)
 {
 	cout << node -> c;
@@ -32,10 +34,11 @@ void printnode(huff* node, vector<int> &t)
 	cout << endl; 
 }
 
-void inorder(huff* node, int index)
+void order(huff* node, int index)
 {
 	if(node == NULL)
 		return;
+
 	if(index == 0)
 		v.push_back(0);
 	else if(index == 1)
@@ -50,6 +53,26 @@ void inorder(huff* node, int index)
 		cout << node -> c << endl;
 		inorder(node -> right, 1);
 //	}
+	if(node -> left == NULL && node -> right == NULL)
+	{
+		//printnode(node, v);
+		cout << "Leaf " << index << endl;
+		return;
+	}
+	else
+	{
+		if(node -> left != NULL && node -> left -> c != '*')
+			order(node -> left, 0);
+		else if(node -> left != NULL && node -> left -> c == '*')
+			order(node -> left, 2);
+
+		if(node -> right != NULL && node -> right -> c != '*')	
+			order(node -> right, 1);
+		else if(node -> right != NULL && node -> right -> c == '*')
+			order(node -> right, 2);
+		
+		return;
+	}
 }
 
 int main()
@@ -71,7 +94,7 @@ int main()
 //		cout << freq[i] << endl;
 	
 	int x = 26;
-	priority_queue<huff, vector<huff>, MoreThanByFreq> q;
+	priority_queue<huff*, vector<huff>, MoreThanByFreq> q1;
 	int index = 0;
 	while(x--)
 	{
@@ -89,37 +112,38 @@ int main()
 		index++;
 	}
 	
-//	while(!q.empty())
-//	{
-//		huff h = q.top();
-//		q.pop();
-//		cout << h.c << " " << h.freq << endl;
-//	}
-	
-	huff final;
-	while(!q.empty())
+	// while(!q.empty())
+	// {
+	// 	huff h = q.top();
+	// 	q.pop();
+	// 	cout << h.c << " " << h.freq << endl;
+	// }
+
+	while(q.size() > 1)
 	{
-		if(q.size() == 1)
-		{
-			final = q.top();
-			q.pop();
-			break;
-		}
-		huff h1 = q.top();
+		huff h1, h2;
+		h1 = q.top();
 		q.pop();
-		huff h2 = q.top();
+		h2 = q.top();
 		q.pop();
-//		cout << h1.c << " " << h2.c << endl;
+		// cout << h1.freq << " " << h2.freq << endl;
+		//huff* h = new huff();
 		huff h;
+		h.freq = h1.freq + h2.freq;
 		h.left = &h1;
 		h.right = &h2;
-		h.empty = 1;
-		h.freq = h1.freq + h2.freq;
-		h.c = NULL;
 		h.visited = 0;
-//		cout << "gg" << h.c << endl;
+		h.empty = 1;
+		h.c = '*';
+
+		cout << h.left -> freq << " " << h.right -> freq << endl;
 		q.push(h);
 	}
+
+	huff root;
+	root = q.top();
 	
-	inorder(&final, 2);
+	order(&root, 2);
+
+	return 0;
 }
