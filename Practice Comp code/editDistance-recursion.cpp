@@ -9,7 +9,6 @@ int min(int a, int b, int c)
 
 int edit(string s1, int l1, string s2, int l2)
 {
-    // cout << "A";
     if(l1 == 0)
         return l2;
     if(l2 == 0)
