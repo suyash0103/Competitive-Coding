@@ -41,15 +41,15 @@ void inorder(huff* node, int index)
 	else if(index == 1)
 		v.push_back(1);
 		
-	if(node -> left == NULL && node -> right == NULL)
-		printnode(node, v);
-	else
-	{
-		if(node -> left != NULL)
-			inorder(node -> left, 0);
-		else if(node -> right != NULL)	
-			inorder(node -> right, 1);	
-	}
+//	if(node -> left == NULL && node -> right == NULL)
+//		printnode(node, v);
+//		cout << node -> c << endl;
+//	else
+//	{
+		inorder(node -> left, 0);
+		cout << node -> c << endl;
+		inorder(node -> right, 1);
+//	}
 }
 
 int main()
