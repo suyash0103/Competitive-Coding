@@ -16,6 +16,8 @@ int main()
     cin >> s2;
     int l1 = s1.length();
     int l2 = s2.length();
+    
+    int a[l1 + 1][l2 + 1];
 
     for(int i = 0; i <= l1; i++)
     {
